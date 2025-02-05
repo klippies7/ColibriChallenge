@@ -29,6 +29,8 @@ There are Jobs to perform the Production workloads as well as for the Test workl
 
 - Production
   - The metadata for DLT tables and DLT Expectations are loaded. Normally they would be files delivered from the repo.
+  - Execute the Production workload for Silver Tier (DLT pipeline)
+  - Execute the Production workload for the Gold Tier (notebook)
 - Testing
   - The Job executes just the following:
     - Load bespoke test file

@@ -1,0 +1,54 @@
+resources:
+  jobs:
+    job_sourceenergy_turbine:
+      name: job_sourceenergy_turbine
+      tasks:
+        - task_key: load_metadata
+          notebook_task:
+            notebook_path: /Workspace/Users/sean.niemeyer@avanade.com/demo/config/load_metadata
+            source: WORKSPACE
+          job_cluster_key: Job_cluster
+        - task_key: load_expectations
+          depends_on:
+            - task_key: load_metadata
+          notebook_task:
+            notebook_path: /Workspace/Users/sean.niemeyer@avanade.com/demo/config/load_expectations
+            source: WORKSPACE
+          job_cluster_key: Job_cluster
+        - task_key: pipeline_bronze_silver
+          depends_on:
+            - task_key: load_expectations
+          pipeline_task:
+            pipeline_id: 0a7663bf-4111-458d-bcf6-faa9144bcb93
+            full_refresh: false
+        - task_key: notebook_silver_gold
+          depends_on:
+            - task_key: pipeline_bronze_silver
+          notebook_task:
+            notebook_path: /Workspace/Users/sean.niemeyer@avanade.com/demo/gold/energysource-turbine-silver-gold
+            source: WORKSPACE
+          job_cluster_key: Job_cluster
+      job_clusters:
+        - job_cluster_key: Job_cluster
+          new_cluster:
+            cluster_name: ""
+            spark_version: 15.4.x-scala2.12
+            spark_conf:
+              spark.master: local[*, 4]
+              spark.databricks.cluster.profile: singleNode
+            azure_attributes:
+              first_on_demand: 1
+              availability: ON_DEMAND_AZURE
+              spot_bid_max_price: -1
+            node_type_id: Standard_D3_v2
+            driver_node_type_id: Standard_D3_v2
+            custom_tags:
+              ResourceClass: SingleNode
+            spark_env_vars:
+              PYSPARK_PYTHON: /databricks/python3/bin/python3
+            enable_elastic_disk: true
+            data_security_mode: SINGLE_USER
+            runtime_engine: STANDARD
+            num_workers: 0
+      queue:
+        enabled: true

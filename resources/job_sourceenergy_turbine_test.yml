@@ -1,0 +1,11 @@
+resources:
+  jobs:
+    job_sourceenergy_turbine_test:
+      name: job_sourceenergy_turbine_test
+      tasks:
+        - task_key: pipeline_bronze_silver
+          pipeline_task:
+            pipeline_id: e78e4841-b763-4b6c-b4cc-2591fdfc3312
+            full_refresh: true
+      queue:
+        enabled: true

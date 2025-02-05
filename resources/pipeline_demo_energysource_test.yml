@@ -1,0 +1,19 @@
+clusters:
+  - label: "default"
+    node_type_id: "Standard_DS3_v2"
+    driver_node_type_id: "Standard_DS3_v2"
+    autoscale:
+      min_workers: 1
+      max_workers: 1
+      mode: "ENHANCED"
+development: true
+continuous: false
+channel: "CURRENT"
+photon: false
+libraries:
+  - notebook:
+      path: "/Users/sean.niemeyer@avanade.com/demo/bronze/energysource-turbine-bronze-test"
+  - notebook:
+      path: "/Users/sean.niemeyer@avanade.com/demo/silver/energysource-turbine-bronze-silver"
+  - notebook:
+      path: "/Users/sean.niemeyer@avanade.com/demo/silver/energysource-turbine-bronze-silver-test"
